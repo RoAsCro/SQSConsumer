@@ -1,1 +1,2 @@
 import abstract_consumer
+abstract_consumer = abstract_consumer
