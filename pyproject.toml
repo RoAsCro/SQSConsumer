@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "sqs_consumer_RoAsCro"
+name = "sqs_consumer"
 version = "0.0.1"
 authors = [
   { name="Roland Crompton", email="" },
@@ -23,6 +23,8 @@ classifiers = [
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E*"]
+packages = ["src/sqs_consumer"]
+
 
 [project.urls]
 Homepage = "https://github.com/RoAsCro/SQSConsumer.git"
