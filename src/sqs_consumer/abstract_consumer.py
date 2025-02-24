@@ -8,6 +8,7 @@ from flask import Blueprint, Flask
 
 class AbstractConsumer(ABC):
     def __init__(self):
+        self.bg_thread = None
         default_region = "us-east-1"
         # Environment variables
         self.queue = os.getenv("QUEUE")
@@ -22,7 +23,6 @@ class AbstractConsumer(ABC):
                                aws_access_key_id=self.access_id,
                                aws_secret_access_key=self.access_key
                                )
-        self.bg_thread = self.background_thread()
 
     running = False
     router = Blueprint("messages", __name__, url_prefix="/queue_1")
@@ -77,6 +77,7 @@ class AbstractConsumer(ABC):
         return 'Ok', 200
 
     def run(self):
+        self.bg_thread = self.background_thread()
         health_checker = Flask(__name__)
         health_checker.register_blueprint(self.router)
         return health_checker
