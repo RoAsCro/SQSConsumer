@@ -1,6 +1,6 @@
 import logging
 import threading
-from abc import ABC
+from abc import ABC, abstractmethod
 
 import boto3
 from flask import Blueprint, Flask
@@ -42,7 +42,7 @@ class AbstractConsumer(ABC):
         message = response["Messages"][0]
 
         return message
-
+    @abstractmethod
     def send(self, message_to_send):
         pass
 
@@ -70,8 +70,6 @@ class AbstractConsumer(ABC):
         thread = threading.Thread(target=self.process, daemon=True)
         thread.start()
         return thread
-
-
 
     @router.get("/health")
     def health_check(self):
