@@ -1,1 +1,1 @@
-import abstract_comsumer
+import abstract_consumer
