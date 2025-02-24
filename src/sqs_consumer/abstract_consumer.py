@@ -7,6 +7,9 @@ from flask import Blueprint, Flask
 
 class AbstractConsumer(ABC):
 
+    def __init__(self, env):
+        self.env = env
+
     default_region = "us-east-1"
     env = {}
     # Environment variables
@@ -19,8 +22,6 @@ class AbstractConsumer(ABC):
 
     exception = Exception
     router = Blueprint("messages", __name__, url_prefix="/queue_1")
-    def __init__(self, env):
-        self.env = env
 
     sqs = boto3.client("sqs",
                        region_name=aws_region,
