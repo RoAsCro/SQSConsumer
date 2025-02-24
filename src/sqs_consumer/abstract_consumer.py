@@ -42,6 +42,7 @@ class AbstractConsumer(ABC):
 
         return message
 
+    @abstractmethod
     def send(self, message_to_send):
         pass
 
