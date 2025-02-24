@@ -1,7 +1,7 @@
 import logging
 import os
 import threading
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, abstractproperty
 
 import boto3
 from flask import Blueprint, Flask
@@ -22,6 +22,7 @@ class AbstractConsumer(ABC):
                                aws_access_key_id=self.access_id,
                                aws_secret_access_key=self.access_key
                                )
+        self.bg_thread = self.background_thread()
 
     running = False
     router = Blueprint("messages", __name__, url_prefix="/queue_1")
