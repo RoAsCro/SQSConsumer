@@ -7,21 +7,21 @@ import boto3
 from flask import Blueprint, Flask
 
 class AbstractConsumer(ABC):
-
-    default_region = "us-east-1"
-    # Environment variables
-    queue = os.getenv("QUEUE")
-    aws_region = os.getenv("AWS_REGION")
-    if aws_region is None:
-        aws_region = default_region
-    access_id = os.getenv("AWS_ACCESS_KEY_ID")
-    access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
-    exception = Exception
-    sqs = boto3.client("sqs",
-                           region_name=aws_region,
-                           aws_access_key_id=access_id,
-                           aws_secret_access_key=access_key
-                           )
+    def __init__(self):
+        default_region = "us-east-1"
+        # Environment variables
+        self.queue = os.getenv("QUEUE")
+        self.aws_region = os.getenv("AWS_REGION")
+        if self.aws_region is None:
+            self.aws_region = default_region
+        self.access_id = os.getenv("AWS_ACCESS_KEY_ID")
+        self.access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
+        self.exception = Exception
+        self.sqs = boto3.client("sqs",
+                               region_name=self.aws_region,
+                               aws_access_key_id=self.access_id,
+                               aws_secret_access_key=self.access_key
+                               )
 
     running = False
     router = Blueprint("messages", __name__, url_prefix="/queue_1")
