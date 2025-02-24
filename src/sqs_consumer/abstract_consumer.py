@@ -1,4 +1,5 @@
 import logging
+import os
 import threading
 from abc import ABC, abstractmethod
 
@@ -7,21 +8,19 @@ from flask import Blueprint, Flask
 
 class AbstractConsumer(ABC):
 
-    def __init__(self, env):
-        self.env = env
-        default_region = "us-east-1"
-        # Environment variables
-        self.queue = env.get("QUEUE")
-        self.aws_region = env.get("AWS_REGION")
-        if self.aws_region is None:
-            self.aws_region = default_region
-        self.access_id = env.get("AWS_ACCESS_KEY_ID")
-        self.access_key = env.get("AWS_SECRET_ACCESS_KEY")
-        self.exception = Exception
-        self.sqs = boto3.client("sqs",
-                           region_name=self.aws_region,
-                           aws_access_key_id=self.access_id,
-                           aws_secret_access_key=self.access_key
+    default_region = "us-east-1"
+    # Environment variables
+    queue = os.getenv("QUEUE")
+    aws_region = os.getenv("AWS_REGION")
+    if aws_region is None:
+        aws_region = default_region
+    access_id = os.getenv("AWS_ACCESS_KEY_ID")
+    access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
+    exception = Exception
+    sqs = boto3.client("sqs",
+                           region_name=aws_region,
+                           aws_access_key_id=access_id,
+                           aws_secret_access_key=access_key
                            )
 
     running = False
@@ -42,7 +41,7 @@ class AbstractConsumer(ABC):
         message = response["Messages"][0]
 
         return message
-    @abstractmethod
+
     def send(self, message_to_send):
         pass
 
