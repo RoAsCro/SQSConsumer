@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sqs_consumer"
-version = "0.0.3"
+version = "0.0.31"
 authors = [
   { name="Roland Crompton", email="" },
 ]

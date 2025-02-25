@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import sys
@@ -83,7 +84,7 @@ class AbstractConsumer(ABC):
 
     @router.get("/health")
     def health_check(self):
-        return 'Ok', 200
+        return json.loads('{"message":"Ok"}'), 200
 
     def run(self):
         self.bg_thread = self.background_thread()
