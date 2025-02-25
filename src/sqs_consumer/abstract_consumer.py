@@ -8,6 +8,10 @@ from abc import ABC, abstractmethod
 import boto3
 from flask import Blueprint, Flask
 
+router = Blueprint("messages", __name__, url_prefix="/queue_1")
+@router.get("/health")
+def health_check():
+    return json.loads('{"message":"Ok"}'), 200
 
 class AbstractConsumer(ABC):
     def __init__(self):
@@ -35,7 +39,6 @@ class AbstractConsumer(ABC):
         self.info_logger.setLevel(logging.INFO)
 
     running = False
-    router = Blueprint("messages", __name__, url_prefix="/queue_1")
 
     def get_from_queue(self):
         response = self.sqs.receive_message(
@@ -82,12 +85,8 @@ class AbstractConsumer(ABC):
         thread.start()
         return thread
 
-    @router.get("/health")
-    def health_check(self):
-        return json.loads('{"message":"Ok"}'), 200
-
     def run(self):
         self.bg_thread = self.background_thread()
         health_checker = Flask(__name__)
-        health_checker.register_blueprint(self.router)
+        health_checker.register_blueprint(router)
         return health_checker
