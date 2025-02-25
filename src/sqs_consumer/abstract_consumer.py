@@ -30,13 +30,13 @@ class AbstractConsumer(ABC):
                                aws_access_key_id=self.access_id,
                                aws_secret_access_key=self.access_key
                                )
-        self.error_logger = logging.getLogger()
-        self.error_logger.addHandler(logging.StreamHandler(sys.stdout))
-        self.error_logger.setLevel(logging.ERROR)
-
-        self.info_logger = logging.getLogger()
-        self.info_logger.addHandler(logging.StreamHandler(sys.stdout))
-        self.info_logger.setLevel(logging.INFO)
+        # self.error_logger = logging.getLogger()
+        # self.error_logger.addHandler(logging.StreamHandler(sys.stdout))
+        # self.error_logger.setLevel(logging.ERROR)
+        #
+        # self.info_logger = logging.getLogger()
+        # self.info_logger.addHandler(logging.StreamHandler(sys.stdout))
+        # self.info_logger.setLevel(logging.INFO)
 
     running = False
 
