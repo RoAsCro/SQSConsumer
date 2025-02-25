@@ -72,7 +72,7 @@ class AbstractConsumer(ABC):
                 try:
                     self.send(message)
                 except self.exception as ex:
-                    logging.error(ex)
+                    self.error_logger.error(ex)
                     continue
                 self.delete(message)
 
