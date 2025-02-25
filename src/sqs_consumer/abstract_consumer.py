@@ -1,10 +1,12 @@
 import logging
 import os
+import sys
 import threading
-from abc import ABC, abstractmethod, abstractproperty
+from abc import ABC, abstractmethod
 
 import boto3
 from flask import Blueprint, Flask
+
 
 class AbstractConsumer(ABC):
     def __init__(self):
@@ -23,6 +25,13 @@ class AbstractConsumer(ABC):
                                aws_access_key_id=self.access_id,
                                aws_secret_access_key=self.access_key
                                )
+        self.error_logger = logging.getLogger()
+        self.error_logger.addHandler(logging.StreamHandler(sys.stdout))
+        self.error_logger.setLevel(logging.ERROR)
+
+        self.info_logger = logging.getLogger()
+        self.info_logger.addHandler(logging.StreamHandler(sys.stdout))
+        self.info_logger.setLevel(logging.INFO)
 
     running = False
     router = Blueprint("messages", __name__, url_prefix="/queue_1")
