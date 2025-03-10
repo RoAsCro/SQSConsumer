@@ -14,11 +14,11 @@ def health_check():
     return json.loads('{"message":"Ok"}'), 200
 
 class AbstractConsumer(ABC):
-    def __init__(self, queue_var_name="QUEUE"):
+    def __init__(self):
         self.bg_thread = None
         default_region = "us-east-1"
         # Environment variables
-        self.queue = os.getenv(queue_var_name)
+        self.queue = os.getenv("QUEUE")
         self.aws_region = os.getenv("AWS_REGION")
         if self.aws_region is None:
             self.aws_region = default_region
